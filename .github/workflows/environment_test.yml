@@ -12,10 +12,11 @@ jobs:
     steps:
       - name: Convert to environment variables
         uses: sergeysova/jq-action@v2
-        cmd: |
-          for s in $(echo $values | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" ); do
-            echo $s >> $GITHUB_ENV
-          done
+        with: 
+          cmd: |
+            for s in $(echo $values | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" ); do
+              echo $s >> $GITHUB_ENV
+            done
       - name: Printenv
         run: |
           printenv

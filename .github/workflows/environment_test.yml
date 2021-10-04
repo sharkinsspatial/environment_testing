@@ -7,12 +7,12 @@ on:
 jobs:
   test-environment:
     runs-on: ubuntu-20.04
+    environment:
+      name: test
     env:
       AWS_DEFAULT_REGION: us-west-2
     steps:
       - name: Convert to environment variables
-        environment:
-          name: test
         uses: sergeysova/jq-action@v2
         with: 
           cmd: |

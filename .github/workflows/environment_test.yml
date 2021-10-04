@@ -1,5 +1,4 @@
 name: environment test
-
 on:
   push:
     branches: [main]
@@ -8,11 +7,11 @@ on:
 jobs:
   test-environment:
     runs-on: ubuntu-20.04
-    uses: sergeysova/jq-action@v2
     env:
       AWS_DEFAULT_REGION: us-west-2
     steps:
       - name: Convert to environment variables
+        uses: sergeysova/jq-action@v2
         run: |
           for s in $(echo $values | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" ); do
             echo $s >> $GITHUB_ENV

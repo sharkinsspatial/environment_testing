@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Convert to environment variables
         uses: sergeysova/jq-action@v2
-        run: |
+        cmd: |
           for s in $(echo $values | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" ); do
             echo $s >> $GITHUB_ENV
           done

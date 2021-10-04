@@ -15,9 +15,11 @@ jobs:
     steps:
       - name: Convert to environment variables
         run: |
-          for s in $(echo $SECRETS_CONTEXT | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" ); do
-            echo $s >> $GITHUB_ENV
-          done
+          while read -rd $'' line
+          do
+            echo "$line" >> $GITHUB_ENV
+          done < <(jq -r <<<"$SECRETS_CONTEXT" \
+            'to_entries|map("\(.key)=\(.value)\u0000")[]')
       - name: Printenv
         run: |
           printenv

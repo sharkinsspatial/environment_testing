@@ -17,7 +17,9 @@ jobs:
         uses: sergeysova/jq-action@v2
         with: 
           cmd: |
-            echo $SECRETS_CONTEXT
+            for s in $(echo $SECRETS_CONTEXT | jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" ); do
+              export $s
+            done
       - name: Printenv
         run: |
           printenv
